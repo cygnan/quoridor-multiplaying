@@ -6,7 +6,7 @@ module.exports = {
     main: './src/main.ts',
     receptionWorker: './src/reception.worker.ts',
     emissionWorker: './src/emission.worker.ts',
-    socket: './src/socket/index.tsx',
+    socket: './src/socket/connectSocket.tsx',
     global: './src/global.ts',
   },
   output: {
