@@ -6,7 +6,7 @@ module.exports = {
     worker: './src/agent.worker.ts'
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'public'),
     filename: "[name].js",
     library: "[name]",
     // libraryTarget: "umd"
@@ -16,7 +16,7 @@ module.exports = {
     extensions:['.ts', '.js']
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist')
+    contentBase: path.join(__dirname, 'public')
   },
   module: {
     rules: [

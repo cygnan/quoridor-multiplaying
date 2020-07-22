@@ -2,15 +2,19 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <title>Quoridor Game AI (コリドールコンピュータ対戦)</title>
+  <link rel="stylesheet" href="qf_board_viewer.css">
   <meta charset="utf-8" />
-  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="shortcut icon" href="favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <link rel="manifest" href="manifest.json" />
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -20,7 +24,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <title>Live Chat React App</title>
+<!--  <title>Live Chat React App</title>-->
 </head>
 
 <body>
@@ -36,6 +40,19 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+  <div class="title">
+    Quoridor Multiplaying
+  </div>
+  <div class="qf_board_viewer" style="width: 480px; height: 660px;">
+    <div class="qf_gameboard" style="width: 480px; height: 580px;">
+      <div class ="qf_inner_gameboard" style="width: 440px; height: 440px; top: 70px; left: 20px">
+      </div>
+    </div>
+    <div class="qf_controlpanel" style="width: 440px; height: 60px; top: 590px; left: 20px;">
+    </div>
+  </div>
+
+  <script src="main.js"></script>
 </body>
 
 </html>
