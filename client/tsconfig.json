@@ -15,7 +15,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "jsx": "preserve",
+    "jsx": "react",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
 //    "strict": true,
