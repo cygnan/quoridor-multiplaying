@@ -4,13 +4,19 @@
 import {State} from "./quoridor_core";
 import {agent_list} from "./agents/agent_list";
 
+import {ChatMessage} from "./socket/types";
+import {globalVariables} from "./global";
+
 const ctx: Worker = self as any;
 
 ctx.addEventListener('message', message => {
-  const [state_raw, agent_name] = message.data;
+  const [state_raw, agent_name]: [number, number] = message.data;
   const state = State.prototype.clone.apply(state_raw);  // State instance should be re-created
   const agent = agent_list[agent_name];
+  globalVariables.waitData();
+  const dataFromOpponent: ChatMessage = globalVariables.dataFromOpponent;
+  // const cpu_act: number = dataFromOpponent.author;
+  const cpu_act = dataFromOpponent.author;
   // const cpu_act = agent(state);
-  const cpu_act = agent(state);
   ctx.postMessage([cpu_act, state.turn]);
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './QuoridorSocketApp';
 import * as serviceWorker from './serviceWorker';
 import { SocketService } from './SocketService';
 import { ChatContext } from './ChatContext';

@@ -4,8 +4,10 @@ const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 module.exports = {
   entry: {
     main: './src/main.ts',
-    worker: './src/agent.worker.ts',
+    receptionWorker: './src/reception.worker.ts',
+    emissionWorker: './src/emission.worker.ts',
     socket: './src/socket/index.tsx',
+    global: './src/global.ts',
   },
   output: {
     path: path.join(__dirname, 'public'),
@@ -18,7 +20,8 @@ module.exports = {
     extensions:['.ts', '.js', '.tsx']
   },
   devServer: {
-    contentBase: path.join(__dirname, 'public')
+    contentBase: path.join(__dirname, 'public'),
+    port: 3000
   },
   module: {
     rules: [

@@ -1,6 +1,7 @@
 import {movedPos, State, Act, decomposeAct, getCandidateActs, applyAct, isGameOver} from "./quoridor_core";
 import {agent_list} from "./agents/agent_list";
 
+
 const boardDiv = document.querySelector(".qf_inner_gameboard") as HTMLDivElement;
 
 function turnString(turn: number) : string {
@@ -19,7 +20,13 @@ function invokeAct(event: Event) {
 
   if (!isValid(act)) return;
 
+  console.log(act);
   updateBoard(act);
+
+  const worker = new Worker("emissionWorker.js");
+  worker.addEventListener('message', message => {})
+  worker.postMessage([act, 1]);
+
   if (g_gameover) return;
 
   if (agent_list[g_agent_name]) {
@@ -43,7 +50,7 @@ function invokeAct(event: Event) {
 function takeCPUTurn() {
   if (g_gameover) return;
 
-  const worker = new Worker("worker.js");
+  const worker = new Worker("receptionWorker.js");
 
   worker.addEventListener('message', message => {
     const [cpu_act, turn] = message.data;

@@ -89,13 +89,13 @@ var worker =
 
 /***/ "./src/agent.worker.ts":
 /*!*****************************!*\
-  !*** ./src/agent.worker.ts ***!
+  !*** ./src/reception.worker.ts ***!
   \*****************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _quoridor_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./quoridor_core */ \"./src/quoridor_core.ts\");\n/* harmony import */ var _agents_agent_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./agents/agent_list */ \"./src/agents/agent_list.ts\");\n// The following repository was useful for writing WebWorker code.\n// https://github.com/Qwaz/webworker-with-typescript/tree/master/multiple-entry\n\n\nconst ctx = self;\nctx.addEventListener('message', message => {\n    const [state_raw, agent_name] = message.data;\n    const state = _quoridor_core__WEBPACK_IMPORTED_MODULE_0__[\"State\"].prototype.clone.apply(state_raw); // State instance should be re-created\n    const agent = _agents_agent_list__WEBPACK_IMPORTED_MODULE_1__[\"agent_list\"][agent_name];\n    // const cpu_act = agent(state);\n    const cpu_act = agent(state);\n    ctx.postMessage([cpu_act, state.turn]);\n});\n\n\n//# sourceURL=webpack://%5Bname%5D/./src/agent.worker.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _quoridor_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./quoridor_core */ \"./src/quoridor_core.ts\");\n/* harmony import */ var _agents_agent_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./agents/agent_list */ \"./src/agents/agent_list.ts\");\n// The following repository was useful for writing WebWorker code.\n// https://github.com/Qwaz/webworker-with-typescript/tree/master/multiple-entry\n\n\nconst ctx = self;\nctx.addEventListener('message', message => {\n    const [state_raw, agent_name] = message.data;\n    const state = _quoridor_core__WEBPACK_IMPORTED_MODULE_0__[\"State\"].prototype.clone.apply(state_raw); // State instance should be re-created\n    const agent = _agents_agent_list__WEBPACK_IMPORTED_MODULE_1__[\"agent_list\"][agent_name];\n    // const cpu_act = agent(state);\n    const cpu_act = agent(state);\n    ctx.postMessage([cpu_act, state.turn]);\n});\n\n\n//# sourceURL=webpack://%5Bname%5D/./src/reception.worker.ts?");
 
 /***/ }),
 

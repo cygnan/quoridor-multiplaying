@@ -1,10 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+// import './App.css';
 import { ChatMessage, ChatState } from './types';
 import { ChatContext } from './ChatContext';
+import {Observable} from "rxjs";
+import {switchAll} from "rxjs/operators";
+import {globalVariables} from "../global";
 
-export class App extends React.Component {
+
+class App extends React.Component {
   static contextType = ChatContext;
 
   state: ChatState = {
@@ -22,14 +26,16 @@ export class App extends React.Component {
     //initiate socket connection
     this.context.init();
 
-    const observable = this.context.onMessage();
+    globalVariables.observable = this.context.onMessage();
 
-    observable.subscribe((m: ChatMessage) => {
-      let messages = this.state.messages;
-
-      messages.push(m);
-      this.setState({ messages: messages });
-    });
+    globalVariables._send = this.context.send;
+    //
+    // observable.subscribe((m: ChatMessage) => {
+    //   let messages = this.state.messages;
+    //
+    //   messages.push(m);
+    //   this.setState({ messages: messages });
+    // });
   }
 
   componentWillUnmount () {

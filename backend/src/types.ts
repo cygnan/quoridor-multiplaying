@@ -1,4 +1,8 @@
+// export interface ChatMessage {
+//   cpu_act: number;
+//   turn: number;
+// }
 export interface ChatMessage {
-  cpu_act: number;
-  turn: number;
+  author: string;
+  message: string;
 }
