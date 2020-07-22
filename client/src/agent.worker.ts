@@ -10,6 +10,7 @@ ctx.addEventListener('message', message => {
   const [state_raw, agent_name] = message.data;
   const state = State.prototype.clone.apply(state_raw);  // State instance should be re-created
   const agent = agent_list[agent_name];
+  // const cpu_act = agent(state);
   const cpu_act = agent(state);
   ctx.postMessage([cpu_act, state.turn]);
 });
