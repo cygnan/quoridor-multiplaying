@@ -1,44 +1,51 @@
 import { ChatMessage } from './types';
+import {timer} from "rxjs";
 
 
 export class App {
   static socket: SocketIOClient.Socket;
+  static message: ChatMessage;
 
   constructor() {
-    while (true) {
-      console.log('Connecting to server...')
-      App.socket = io('http://localhost:8080', {
-        path: '/'
-      });
+    const io = require('socket.io-client');
+    console.log('Connecting to server...')
+    App.socket = io('http://localhost:8080', {});
+
+    App.socket.on('connect', () => {
       if (App.socket.connected) {
-        break;
-      } else {
-        console.log('Failed to connect. Retrying in 5 seconds.')
-        this.sleep(5)
+        console.log('Connected to server.')
       }
-    }
-    console.log('Connected.')
-    console.log(`socket.id: $(socket.id)`);
+    });
 
     App.socket.on('disconnect', (reason: string) => {
       if (reason === 'io server disconnect') {
         // the disconnection was initiated by the server, you need to reconnect manually
         App.socket.connect();
       }
+      console.log('Disconnected.')
       // else the socket will automatically try to reconnect
     });
   }
 
-  sleep(s: number) {
-    (async () => {
-      await new Promise( resolve => setTimeout(resolve, s * 1000.0) );
-    })();
-    return
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
-//   send(m: ChatMessage) {
-//     App.socket.emit('message', m);
-//   }
+  sleep(s: number) {
+    timer(5000).subscribe(x => {})
+  }
+
+  send(m: ChatMessage) {
+    App.socket.emit('message', m);
+  }
+
+  receive(): ChatMessage {
+    App.socket.on('chat message', (m: ChatMessage) => {
+      App.message = m;
+      return;
+    });
+    return App.message;
+  }
 //
 //
 //   componentDidMount () {
