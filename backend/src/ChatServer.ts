@@ -40,7 +40,7 @@ export class ChatServer {
       console.log(`> All connected clients: ${JSON.stringify(allConnectedClients)}`);
       let player_num: Player_NUM;
       if (Object.keys(this.playersState).length === 0) {
-        player_num = 0;
+        player_num = Math.floor(Math.random() * 2) as Player_NUM;
       } else if (Object.keys(this.playersState).length === 1) {
         const first_player_id: string = Object.keys(this.playersState)[0];
         player_num = 1 - this.playersState[first_player_id].player_num as Player_NUM;
