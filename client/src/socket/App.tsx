@@ -11,7 +11,7 @@ export class App extends React.Component {
     messages: [
       {
         message: 'Welcome! Type a message and press Send Message to continue the chat.',
-        author: 'Bot'
+        cpu_act: 'Bot'
       }
     ],
     input: ''
@@ -65,9 +65,9 @@ export class App extends React.Component {
             msgIndex++;
             return (
               <div key={msgIndex}>
-                <p>{msg.author}</p>
+                <p>{msg.cpu_act}</p>
                 <p>
-                  {msg.message}
+                  {msg.turn}
                 </p>
               </div>
             );

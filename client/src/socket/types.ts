@@ -1,6 +1,6 @@
 export interface ChatMessage {
-  author: string;
-  message: string;
+  cpu_act: number;
+  turn: number;
 }
 
 export interface ChatState {

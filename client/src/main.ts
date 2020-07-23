@@ -31,12 +31,13 @@ function invokeAct(event: Event) {
   // worker.postMessage([act, 1, app_json]);
   const agent_name = 1;
   const dataFromMe: ChatMessage = {
-    author: act.toString(),
-    message: agent_name.toString()
+    cpu_act: act,
+    turn: agent_name
   };
 
+  console.log('Sending act to server...');
   app.send(dataFromMe);
-  console.log(`Sent act: ${act}`);
+  console.log('Sent act.');
 
   if (g_gameover) return;
 
@@ -51,7 +52,7 @@ function invokeAct(event: Event) {
     d.style.left = "0px";
     d.classList.add("qf_thinking_text");
     d.classList.add("to_be_disposed");
-    d.innerText = "CPU's TURN...";
+    d.innerText = "Opponent's Turn...";
     boardDiv.appendChild(d);
 
     setTimeout(takeCPUTurn, 100);
@@ -73,11 +74,11 @@ function takeCPUTurn() {
   // app.message = undefined;
   app.waitUntilReception().then(dataFromOpponent => {
     // const cpu_act: number = dataFromOpponent.author;
-    const cpu_act = parseInt(dataFromOpponent.author);
+    const cpu_act = dataFromOpponent.cpu_act;
     console.log(`Opponent act: ${cpu_act}`);
+    console.log(cpu_act)
 
     const state = State.prototype.clone.apply(cpu_act);  // State instance should be re-created
-    // const state = cpu_act;  // State instance should be re-created
     const agent_name = state.turn;
     const turn = state.turn;
     const agent = agent_list[agent_name];
@@ -97,8 +98,6 @@ function takeCPUTurn() {
       g_delayed_shadow_act = null;
     }
   })
-
-  // });
 
   // worker.postMessage([g_state, g_agent_name, app]);
 }
