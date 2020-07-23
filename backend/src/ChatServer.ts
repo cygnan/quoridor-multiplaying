@@ -39,7 +39,9 @@ export class ChatServer {
       const allConnectedClients: string[] = Object.keys(this.io.sockets.sockets)
       console.log(`> All connected clients: ${JSON.stringify(allConnectedClients)}`);
       let player_num: Player_NUM;
-      if (allConnectedClients.length <= 2) {
+      if (Object.keys(this.playersState).length === 0) {
+        player_num = 0;
+      } else if (Object.keys(this.playersState).length === 1) {
         const first_player_id: string = Object.keys(this.playersState)[0];
         player_num = 1 - this.playersState[first_player_id].player_num as Player_NUM;
       } else {
