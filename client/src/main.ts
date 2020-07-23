@@ -40,11 +40,11 @@ function invokeAct(event: Event) {
   console.log('Sent act.');
 
   if (g_gameover) return;
+
+  proceedToOpponentTurn();
 }
 
-
-
-function takeCPUTurn() {
+function proceedToOpponentTurn() {
   if (agent_list[g_agent_name]) {
     g_humans_turn = false;
     g_delayed_shadow_act = null;
@@ -61,7 +61,9 @@ function takeCPUTurn() {
 
     setTimeout(takeCPUTurn, 100);
   }
+}
 
+function takeCPUTurn() {
   if (g_gameover) return;
 
   // const worker = new Worker("receptionWorker.js");
@@ -343,7 +345,7 @@ function resetGameState() {
   }
 
   if (player_num == 1) {
-    takeCPUTurn();
+    proceedToOpponentTurn();
   }
 }
 
