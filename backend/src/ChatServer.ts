@@ -38,13 +38,20 @@ export class ChatServer {
       console.log(`Client[${socket.id}] connected on port ${this.port}`);
       const allConnectedClients: string[] = Object.keys(this.io.sockets.sockets)
       console.log(`> All connected clients: ${JSON.stringify(allConnectedClients)}`);
-      const player_num: Player_NUM = allConnectedClients.length <= 2 ? allConnectedClients.length - 1 as Player_NUM : -1;
+      let player_num: Player_NUM;
+      if (allConnectedClients.length <= 2) {
+        const first_player_id: string = Object.keys(this.playersState)[0];
+        player_num = 1 - this.playersState[first_player_id].player_num as Player_NUM;
+      } else {
+        player_num = -1;
+      }
       const player: Player = {
         id: socket.id,
         player_num: player_num
       };
       this.playersState[player.id] = player;
       console.log(`> Client[${socket.id}] player_num ${player.player_num} assigned`);
+      console.log(`> playersState: ${JSON.stringify(this.playersState)}`);
       if (allConnectedClients.length == 2) this.startGame();
 
       socket.on(ChatEvent.MESSAGE, (m: ChatMessage) => {
@@ -62,7 +69,8 @@ export class ChatServer {
         const allConnectedClients: string[] = Object.keys(this.io.sockets.sockets)
         console.log(`> All connected clients: ${JSON.stringify(allConnectedClients)}`);
         delete this.playersState[socket.id];
-        console.log(`> Client[${socket.id}] playerState deleted`)
+        console.log(`> Client[${socket.id}] playerState deleted`);
+        console.log(`> playersState: ${JSON.stringify(this.playersState)}`);
       });
     });
   }
