@@ -1,4 +1,4 @@
-import {Act, applyAct, decomposeAct, getCandidateActs, isGameOver, State} from "./quoridor_core";
+import {Act, applyAct, decomposeAct, getCandidateActs, invAct, isGameOver, State} from "./quoridor_core";
 import {agent_list} from "./agents/agent_list";
 import App from "./socket/QuoridorSocketIO";
 import {ChatMessage} from "./socket/types";
@@ -74,9 +74,9 @@ function takeCPUTurn() {
   // app.message = undefined;
   app.waitUntilReception().then(dataFromOpponent => {
     // const cpu_act: number = dataFromOpponent.author;
-    const cpu_act = dataFromOpponent.cpu_act;
+    const cpu_act: Act = invAct(dataFromOpponent.cpu_act);
     console.log(`Opponent act: ${cpu_act}`);
-    console.log(cpu_act)
+    // console.log(cpu_act)
 
     const state = State.prototype.clone.apply(g_state);  // State instance should be re-created
     const agent_name = state.turn;

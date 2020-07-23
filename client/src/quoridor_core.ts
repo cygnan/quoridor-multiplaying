@@ -185,3 +185,11 @@ export function isGameOver(state: State): number {
   }
   return -1;
 }
+
+export function invAct(act: Act): Act {
+  if ((288 - act) % 2 == 0) {
+    return 288 - act;
+  } else {
+    return (288 - act) % 34 <= 15 ? (288 - act) - 34 : (288 - act) - 2;
+  }
+}
