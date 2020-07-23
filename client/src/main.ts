@@ -1,7 +1,7 @@
 import {Act, applyAct, decomposeAct, getCandidateActs, invAct, isGameOver, State} from "./quoridor_core";
 import {agent_list} from "./agents/agent_list";
 import App from "./socket/QuoridorSocketIO";
-import {ChatMessage} from "./socket/types";
+import {ChatMessage, Player} from "./socket/types";
 
 
 const boardDiv = document.querySelector(".qf_inner_gameboard") as HTMLDivElement;
@@ -40,7 +40,11 @@ function invokeAct(event: Event) {
   console.log('Sent act.');
 
   if (g_gameover) return;
+}
 
+
+
+function takeCPUTurn() {
   if (agent_list[g_agent_name]) {
     g_humans_turn = false;
     g_delayed_shadow_act = null;
@@ -57,9 +61,7 @@ function invokeAct(event: Event) {
 
     setTimeout(takeCPUTurn, 100);
   }
-}
 
-function takeCPUTurn() {
   if (g_gameover) return;
 
   // const worker = new Worker("receptionWorker.js");
@@ -300,8 +302,8 @@ function resetGameState() {
   // remove existing objects
   document.querySelectorAll(".to_be_disposed").forEach(d => d && d.remove());
 
-  g_state = new State(0);
-  g_humans_turn = true;
+  g_state = new State(player_num);
+  g_humans_turn = player_num == 0;
   g_delayed_shadow_act = null;
   g_gameover = false;
   g_candidate_acts = getCandidateActs(g_state);
@@ -338,6 +340,10 @@ function resetGameState() {
     d.classList.add("to_be_disposed");
 
     boardDiv.appendChild(d);
+  }
+
+  if (player_num == 1) {
+    takeCPUTurn();
   }
 }
 
@@ -413,6 +419,9 @@ const app: App = new App()
 
 initializeAgentButtons();
 prepareGameState();
-resetGameState();
 
-
+let player_num: 0 | 1;
+app.waitUntilGameBeginning().then((player: Player) => {
+  player_num = player.player_num as 0 | 1;
+  resetGameState();
+})

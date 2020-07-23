@@ -1,4 +1,4 @@
-import { ChatMessage } from './types';
+import {ChatMessage, Player, PlayersState} from './types';
 import {timer} from "rxjs";
 import {ChatEvent} from "./constants";
 
@@ -6,6 +6,7 @@ import {ChatEvent} from "./constants";
 export class App {
   socket: SocketIOClient.Socket;
   message: ChatMessage;
+  playerState: PlayersState;
 
   constructor() {
     const io = require('socket.io-client');
@@ -47,7 +48,8 @@ export class App {
     });
   }
 
-  waitUntilReception(timeout = 24): Promise<ChatMessage> {
+  waitUntilReception(): Promise<ChatMessage> {
+    const timeout = 24;
     return new Promise((resolve, reject) => {
       let timer: number;
 
@@ -58,6 +60,28 @@ export class App {
       }
 
       this.socket.once(ChatEvent.MESSAGE, responseHandler);
+
+      // set timeout so if a response is not received within a
+      // reasonable amount of time, the promise will reject
+      timer = setTimeout(() => {
+        reject(new Error("timeout waiting for chat message"));
+        this.socket.removeListener(ChatEvent.MESSAGE, responseHandler);
+      }, timeout * 1000 * 3600);
+    });
+  }
+
+  waitUntilGameBeginning(): Promise<Player> {
+    const timeout = 24;
+    return new Promise((resolve, reject) => {
+      let timer: number;
+
+      function responseHandler(player: Player) {
+        // resolve promise with the value we got
+        resolve(player);
+        clearTimeout(timer);
+      }
+
+      this.socket.once(ChatEvent.GAME_INFO, responseHandler);
 
       // set timeout so if a response is not received within a
       // reasonable amount of time, the promise will reject
