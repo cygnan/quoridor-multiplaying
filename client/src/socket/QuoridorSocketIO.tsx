@@ -47,7 +47,7 @@ export class App {
     });
   }
 
-  waitUntilReception(timeout = 3600): Promise<ChatMessage> {
+  waitUntilReception(timeout = 24): Promise<ChatMessage> {
     return new Promise((resolve, reject) => {
       let timer: number;
 
@@ -64,7 +64,7 @@ export class App {
       timer = setTimeout(() => {
         reject(new Error("timeout waiting for chat message"));
         this.socket.removeListener(ChatEvent.MESSAGE, responseHandler);
-      }, timeout * 1000);
+      }, timeout * 1000 * 3600);
     });
   }
 
