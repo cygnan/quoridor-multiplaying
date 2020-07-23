@@ -1,5 +1,8 @@
 import {movedPos, State, Act, decomposeAct, getCandidateActs, applyAct, isGameOver} from "./quoridor_core";
 import {agent_list} from "./agents/agent_list";
+import App from "./socket/QuoridorSocketIO";
+import {globalVariables} from "./global";
+import {ChatMessage} from "./socket/types";
 
 
 const boardDiv = document.querySelector(".qf_inner_gameboard") as HTMLDivElement;
@@ -23,9 +26,17 @@ function invokeAct(event: Event) {
   console.log(act);
   updateBoard(act);
 
-  const worker = new Worker("emissionWorker.js");
-  worker.addEventListener('message', message => {})
-  worker.postMessage([act, 1]);
+  // const worker = new Worker("emissionWorker.js");
+  // worker.addEventListener('message', message => {})
+  // const app_json = JSON.parse(JSON.stringify(app));
+  // worker.postMessage([act, 1, app_json]);
+  const agent_name = 1;
+  const dataFromMe: ChatMessage = {
+    author: act.toString(),
+    message: agent_name.toString()
+  };
+
+  app.send(dataFromMe);
 
   if (g_gameover) return;
 
@@ -70,7 +81,7 @@ function takeCPUTurn() {
     }
   });
 
-  worker.postMessage([g_state, g_agent_name]);
+  worker.postMessage([g_state, g_agent_name, app]);
 }
 
 function showShadowImpl(act: Act) {
@@ -382,6 +393,10 @@ let g_delayed_shadow_act: Act = null;
 let g_gameover: boolean = false;
 let g_candidate_acts: Act[] = [];
 
+const app: App = new App()
+
 initializeAgentButtons();
 prepareGameState();
 resetGameState();
+
+

@@ -1,4 +1,5 @@
 import App from "./QuoridorSocketIO";
+import {globalVariables} from "../global";
 
-export let app: App = new App()
+
 // console.log(App.socket.connected);
