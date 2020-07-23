@@ -67,30 +67,37 @@ function takeCPUTurn() {
     // const [cpu_act, turn] = message.data;
     // const [state_raw, agent_name, app]: [number, number, App] = message.data;
   console.log('Waiting for opponent...');
-  const dataFromOpponent: ChatMessage = app.receive()
-  // const cpu_act: number = dataFromOpponent.author;
-  const cpu_act = parseInt(dataFromOpponent.author);
-  console.log(`Opponent act: ${cpu_act}`);
+  // app.receive();
+  // while(!app.message) {} // wait for reception data
+  // const dataFromOpponent = app.message;
+  // app.message = undefined;
+  app.waitUntilReception().then(dataFromOpponent => {
+    // const cpu_act: number = dataFromOpponent.author;
+    const cpu_act = parseInt(dataFromOpponent.author);
+    console.log(`Opponent act: ${cpu_act}`);
 
-  const state = State.prototype.clone.apply(cpu_act);  // State instance should be re-created
-  const agent_name = state.turn;
-  const turn = state.turn;
-  const agent = agent_list[agent_name];
+    const state = State.prototype.clone.apply(cpu_act);  // State instance should be re-created
+    // const state = cpu_act;  // State instance should be re-created
+    const agent_name = state.turn;
+    const turn = state.turn;
+    const agent = agent_list[agent_name];
 
 
 
-  if (g_state.turn != turn) {
-    return;
-  }
-  updateBoard(cpu_act);
+    if (g_state.turn != turn) {
+      return;
+    }
+    updateBoard(cpu_act);
 
-  document.querySelectorAll(".qf_thinking_text").forEach(d => d && d.remove());
-  if (g_gameover) return;
-  g_humans_turn = true;
-  if (g_delayed_shadow_act != null) {
-    showShadowImpl(g_delayed_shadow_act);
-    g_delayed_shadow_act = null;
-  }
+    document.querySelectorAll(".qf_thinking_text").forEach(d => d && d.remove());
+    if (g_gameover) return;
+    g_humans_turn = true;
+    if (g_delayed_shadow_act != null) {
+      showShadowImpl(g_delayed_shadow_act);
+      g_delayed_shadow_act = null;
+    }
+  })
+
   // });
 
   // worker.postMessage([g_state, g_agent_name, app]);

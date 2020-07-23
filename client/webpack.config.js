@@ -4,10 +4,10 @@ const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 module.exports = {
   entry: {
     main: './src/main.ts',
-    receptionWorker: './src/reception.worker.ts',
-    emissionWorker: './src/emission.worker.ts',
+    // receptionWorker: './src/reception.worker.ts',
+    // emissionWorker: './src/emission.worker.ts',
     // socket: './src/socket/connectSocket.tsx',
-    global: './src/global.ts',
+    // global: './src/global.ts',
   },
   output: {
     path: path.join(__dirname, 'public'),

@@ -39,13 +39,35 @@ export class App {
     this.socket.emit('message', m);
   }
 
-  receive(): ChatMessage {
-    this.socket.on('chat message', (m: ChatMessage) => {
+  receive(): void {
+    this.waitUntilReception().then((m: ChatMessage) => {
+      // you can use message here and only in here
       this.message = m;
-      return;
     });
-    return this.message;
   }
+
+  waitUntilReception(timeout = 10000): Promise<ChatMessage> {
+    return new Promise((resolve, reject) => {
+      let timer: number;
+
+      function responseHandler(m: ChatMessage) {
+        // resolve promise with the value we got
+        resolve(m);
+        clearTimeout(timer);
+      }
+
+      this.socket.once('message', responseHandler);
+
+      // set timeout so if a response is not received within a
+      // reasonable amount of time, the promise will reject
+      timer = setTimeout(() => {
+        reject(new Error("timeout waiting for chat message"));
+        this.socket.removeListener('chat message', responseHandler);
+      }, timeout);
+    });
+  }
+
+
 //
 //
 //   componentDidMount () {
