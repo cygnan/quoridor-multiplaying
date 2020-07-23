@@ -10,13 +10,7 @@ import App from "./socket/QuoridorSocketIO";
 const ctx: Worker = self as any;
 
 ctx.addEventListener('message', message => {
-  const [state_raw, agent_name, app]: [number, number, App] = message.data;
-  const state = State.prototype.clone.apply(state_raw);  // State instance should be re-created
-  const agent = agent_list[agent_name];
 
-  const dataFromOpponent: ChatMessage = app.receive()
-  // const cpu_act: number = dataFromOpponent.author;
-  const cpu_act = parseInt(dataFromOpponent.author);
   // const cpu_act = agent(state);
   ctx.postMessage([cpu_act, state.turn, app]);
 });

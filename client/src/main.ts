@@ -1,7 +1,6 @@
-import {movedPos, State, Act, decomposeAct, getCandidateActs, applyAct, isGameOver} from "./quoridor_core";
+import {Act, applyAct, decomposeAct, getCandidateActs, isGameOver, State} from "./quoridor_core";
 import {agent_list} from "./agents/agent_list";
 import App from "./socket/QuoridorSocketIO";
-import {globalVariables} from "./global";
 import {ChatMessage} from "./socket/types";
 
 
@@ -23,7 +22,7 @@ function invokeAct(event: Event) {
 
   if (!isValid(act)) return;
 
-  console.log(act);
+  console.log(`My act: ${act}`);
   updateBoard(act);
 
   // const worker = new Worker("emissionWorker.js");
@@ -37,6 +36,7 @@ function invokeAct(event: Event) {
   };
 
   app.send(dataFromMe);
+  console.log(`Sent act: ${act}`);
 
   if (g_gameover) return;
 
@@ -61,27 +61,39 @@ function invokeAct(event: Event) {
 function takeCPUTurn() {
   if (g_gameover) return;
 
-  const worker = new Worker("receptionWorker.js");
+  // const worker = new Worker("receptionWorker.js");
 
-  worker.addEventListener('message', message => {
-    const [cpu_act, turn] = message.data;
-    if (g_state.turn != turn) {
-      return;
-    }
-    updateBoard(cpu_act);
+  // worker.addEventListener('message', message => {
+    // const [cpu_act, turn] = message.data;
+    // const [state_raw, agent_name, app]: [number, number, App] = message.data;
+  console.log('Waiting for opponent...');
+  const dataFromOpponent: ChatMessage = app.receive()
+  // const cpu_act: number = dataFromOpponent.author;
+  const cpu_act = parseInt(dataFromOpponent.author);
+  console.log(`Opponent act: ${cpu_act}`);
 
-    document.querySelectorAll(".qf_thinking_text").forEach(d => d && d.remove());
+  const state = State.prototype.clone.apply(cpu_act);  // State instance should be re-created
+  const agent_name = state.turn;
+  const turn = state.turn;
+  const agent = agent_list[agent_name];
 
-    if (g_gameover) return;
 
-    g_humans_turn = true;
-    if (g_delayed_shadow_act != null) {
-      showShadowImpl(g_delayed_shadow_act);
-      g_delayed_shadow_act = null;
-    }
-  });
 
-  worker.postMessage([g_state, g_agent_name, app]);
+  if (g_state.turn != turn) {
+    return;
+  }
+  updateBoard(cpu_act);
+
+  document.querySelectorAll(".qf_thinking_text").forEach(d => d && d.remove());
+  if (g_gameover) return;
+  g_humans_turn = true;
+  if (g_delayed_shadow_act != null) {
+    showShadowImpl(g_delayed_shadow_act);
+    g_delayed_shadow_act = null;
+  }
+  // });
+
+  // worker.postMessage([g_state, g_agent_name, app]);
 }
 
 function showShadowImpl(act: Act) {
