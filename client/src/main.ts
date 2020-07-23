@@ -219,6 +219,8 @@ function initializeAgentButtons() {
     l.appendChild(r);
     l.appendChild(b)
     buttonsDiv.appendChild(l);
+
+    l.style.display = 'none';
   }
 }
 
@@ -408,6 +410,8 @@ function updateBoard(act: Act) {
   if (winner >= 0) {
     showWinningText(winner);
     g_gameover = true;
+    const l = document.querySelector(".qf_toggle_button") as HTMLDivElement;
+    l.style.display = 'block';
   }
 }
 
