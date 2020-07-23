@@ -78,12 +78,10 @@ function takeCPUTurn() {
     console.log(`Opponent act: ${cpu_act}`);
     console.log(cpu_act)
 
-    const state = State.prototype.clone.apply(cpu_act);  // State instance should be re-created
+    const state = State.prototype.clone.apply(g_state);  // State instance should be re-created
     const agent_name = state.turn;
     const turn = state.turn;
     const agent = agent_list[agent_name];
-
-
 
     if (g_state.turn != turn) {
       return;
@@ -167,9 +165,9 @@ function showWinningText(winning_player: number) {
   d.classList.add("qf_winning_text");
   d.classList.add("to_be_disposed");
   if (winning_player == 0) {
-    d.innerText = "YOU WIN!!";
+    d.innerText = "You Win!";
   } else {
-    d.innerText = "CPU WINS!!";
+    d.innerText = "You Lose...";
   }
 
   boardDiv.appendChild(d);
