@@ -3,48 +3,48 @@ import {timer} from "rxjs";
 
 
 export class App {
-  static socket: SocketIOClient.Socket;
-  static message: ChatMessage;
+  socket: SocketIOClient.Socket;
+  message: ChatMessage;
 
   constructor() {
     const io = require('socket.io-client');
     console.log('Connecting to server...')
-    App.socket = io('http://localhost:8080', {});
+    this.socket = io('http://localhost:8080', {});
 
-    App.socket.on('connect', () => {
-      if (App.socket.connected) {
+    this.socket.on('connect', () => {
+      if (this.socket.connected) {
         console.log('Connected to server.')
       }
     });
 
-    App.socket.on('disconnect', (reason: string) => {
+    this.socket.on('disconnect', (reason: string) => {
       if (reason === 'io server disconnect') {
         // the disconnection was initiated by the server, you need to reconnect manually
-        App.socket.connect();
+        this.socket.connect();
       }
       console.log('Disconnected.')
       // else the socket will automatically try to reconnect
     });
   }
 
-  delay(ms: number) {
+  static delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
-  sleep(s: number) {
+  static sleep(s: number) {
     timer(5000).subscribe(x => {})
   }
 
   send(m: ChatMessage) {
-    App.socket.emit('message', m);
+    this.socket.emit('message', m);
   }
 
   receive(): ChatMessage {
-    App.socket.on('chat message', (m: ChatMessage) => {
-      App.message = m;
+    this.socket.on('chat message', (m: ChatMessage) => {
+      this.message = m;
       return;
     });
-    return App.message;
+    return this.message;
   }
 //
 //

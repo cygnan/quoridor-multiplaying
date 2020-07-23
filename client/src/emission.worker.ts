@@ -5,6 +5,7 @@ import {State} from "./quoridor_core";
 import {agent_list} from "./agents/agent_list";
 import {ChatMessage} from "./socket/types";
 import {globalVariables} from "./global";
+import {app} from "./socket/connectSocket";
 
 const ctx: Worker = self as any;
 
@@ -20,7 +21,7 @@ ctx.addEventListener('message', message => {
     message: agent_name.toString()
   };
 
-  globalVariables.sendData(dataFromMe);
+  app.send(dataFromMe);
 
   // const cpu_act: number = dataFromOpponent.author;
   // const cpu_act = dataFromOpponent.author;
