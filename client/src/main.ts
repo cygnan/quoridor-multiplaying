@@ -56,7 +56,7 @@ function proceedToOpponentTurn() {
     d.style.left = "0px";
     d.classList.add("qf_thinking_text");
     d.classList.add("to_be_disposed");
-    d.innerText = "Opponent's Turn...";
+    d.innerText = "Opponent's Turn";
     boardDiv.appendChild(d);
 
     setTimeout(takeCPUTurn, 100);
@@ -79,6 +79,7 @@ function takeCPUTurn() {
   app.waitUntilReception().then(dataFromOpponent => {
     // const cpu_act: number = dataFromOpponent.author;
     const cpu_act: Act = invAct(dataFromOpponent.cpu_act);
+    console.log('Received act from opponent.')
     console.log(`Opponent act: ${cpu_act}`);
     // console.log(cpu_act)
 
