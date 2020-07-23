@@ -1,5 +1,6 @@
 import { ChatMessage } from './types';
 import {timer} from "rxjs";
+import {ChatEvent} from "./constants";
 
 
 export class App {
@@ -11,13 +12,13 @@ export class App {
     console.log('Connecting to server...')
     this.socket = io('http://localhost:8080', {});
 
-    this.socket.on('connect', () => {
+    this.socket.on(ChatEvent.CONNECT, () => {
       if (this.socket.connected) {
         console.log('Connected to server.')
       }
     });
 
-    this.socket.on('disconnect', (reason: string) => {
+    this.socket.on(ChatEvent.DISCONNECT, (reason: string) => {
       if (reason === 'io server disconnect') {
         // the disconnection was initiated by the server, you need to reconnect manually
         this.socket.connect();
@@ -36,7 +37,7 @@ export class App {
   }
 
   send(m: ChatMessage) {
-    this.socket.emit('message', m);
+    this.socket.emit(ChatEvent.MESSAGE, m);
   }
 
   receive(): void {
@@ -56,13 +57,13 @@ export class App {
         clearTimeout(timer);
       }
 
-      this.socket.once('message', responseHandler);
+      this.socket.once(ChatEvent.MESSAGE, responseHandler);
 
       // set timeout so if a response is not received within a
       // reasonable amount of time, the promise will reject
       timer = setTimeout(() => {
         reject(new Error("timeout waiting for chat message"));
-        this.socket.removeListener('chat message', responseHandler);
+        this.socket.removeListener(ChatEvent.MESSAGE, responseHandler);
       }, timeout * 1000);
     });
   }
