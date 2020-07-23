@@ -31,16 +31,25 @@ export class ChatServer {
       console.log('Running server on port %s', this.port);
     });
 
-    this.io.on(ChatEvent.CONNECT, (socket: any) => {
-      console.log('Connected client on port %s.', this.port);
+    this.io.on(ChatEvent.CONNECT, (socket: socketIo.Socket) => {
+      console.log(`Client[${socket.id}] connected on port ${this.port}`);
+      const allConnectedClients: string[] = Object.keys(this.io.sockets.sockets)
+      console.log(`> All connected clients: ${JSON.stringify(allConnectedClients)}`);
 
       socket.on(ChatEvent.MESSAGE, (m: ChatMessage) => {
-        console.log('[server](message): %s', JSON.stringify(m));
-        this.io.emit('message', m);
+        console.log(`Client[${socket.id}](message): ${JSON.stringify(m)}`);
+        const allConnectedClients: string[] = Object.keys(this.io.sockets.sockets);
+        const opponents: string[] = allConnectedClients.filter(array => array !== socket.id);
+        opponents.forEach((opponent: string) => {
+          this.io.to(opponent).emit(ChatEvent.MESSAGE, m);
+          console.log(`> Forwarded act client[${socket.id}] => client[${opponent}]`);
+        })
       });
 
       socket.on(ChatEvent.DISCONNECT, () => {
-        console.log('Client disconnected');
+        console.log(`Client[${socket.id}] disconnected`);
+        const allConnectedClients: string[] = Object.keys(this.io.sockets.sockets)
+        console.log(`> All connected clients: ${JSON.stringify(allConnectedClients)}`);
       });
     });
   }
