@@ -45,22 +45,22 @@ function invokeAct(event: Event) {
 }
 
 function proceedToOpponentTurn() {
-  if (agent_list[g_agent_name]) {
-    g_humans_turn = false;
-    g_delayed_shadow_act = null;
+  // if (agent_list[g_agent_name]) {
+  g_humans_turn = false;
+  g_delayed_shadow_act = null;
 
-    let d = document.createElement("div");
-    d.style.width = "440px";
-    d.style.height = "40px";
-    d.style.top = "-50px";
-    d.style.left = "0px";
-    d.classList.add("qf_thinking_text");
-    d.classList.add("to_be_disposed");
-    d.innerText = "Opponent's Turn";
-    boardDiv.appendChild(d);
+  let d = document.createElement("div");
+  d.style.width = "440px";
+  d.style.height = "40px";
+  d.style.top = "-50px";
+  d.style.left = "0px";
+  d.classList.add("qf_thinking_text");
+  d.classList.add("to_be_disposed");
+  d.innerText = "Opponent's Turn";
+  boardDiv.appendChild(d);
 
-    setTimeout(takeCPUTurn, 100);
-  }
+  setTimeout(takeCPUTurn, 100);
+  // }
 }
 
 function takeCPUTurn() {
@@ -189,7 +189,7 @@ function toggleAgent(event: Event) {
   if (checkbox.checked) {
     g_agent_name = checkbox.value;
   }
-  resetGameState();
+  window.location.reload();
 }
 
 function initializeAgentButtons() {
