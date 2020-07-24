@@ -47,14 +47,19 @@ export class ChatServer {
       } else {
         player_num = -1;
       }
-      const player: Player = {
-        id: socket.id,
-        player_num: player_num
-      };
-      this.playersState[player.id] = player;
-      console.log(`> Client[${socket.id}] player_num ${player.player_num} assigned`);
-      console.log(`> playersState: ${JSON.stringify(this.playersState)}`);
-      if (Object.keys(this.playersState).length === 2) this.startGame();
+      if (Object.keys(this.playersState).length <= 1) {
+        const player: Player = {
+          id: socket.id,
+          player_num: player_num
+        };
+        this.playersState[player.id] = player;
+        console.log(`> Client[${socket.id}] player_num ${player.player_num} assigned`);
+        console.log(`> playersState: ${JSON.stringify(this.playersState)}`);
+        if (Object.keys(this.playersState).length === 2) this.startGame();
+      } else {
+        console.log(`> Client[${socket.id}] player_num not assigned`);
+        console.log(`> playersState: ${JSON.stringify(this.playersState)}`);
+      }
 
       socket.on(ChatEvent.MESSAGE, (m: ChatMessage) => {
         console.log(`Client[${socket.id}](message): ${JSON.stringify(m)}`);
