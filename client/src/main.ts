@@ -205,10 +205,10 @@ function initializeAgentButtons() {
 
     let b = document.createElement("div");
     b.innerText = agent_name;
-    b.style.width = 100 + "px";
+    b.style.width = 120 + "px";
     b.style.height = 25 + "px";
     b.style.top = (Math.floor(i / 4) * 30) + "px";
-    b.style.left = ((i % 4) * 110) + "px";
+    b.style.left = ((i % 4) * 110 + 160) + "px";
     b.classList.add("qf_control_button");
     b.classList.add("qf_button_ai");
 
