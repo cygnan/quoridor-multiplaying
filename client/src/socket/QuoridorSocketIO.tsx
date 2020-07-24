@@ -86,13 +86,37 @@ export class App {
       // set timeout so if a response is not received within a
       // reasonable amount of time, the promise will reject
       timer = setTimeout(() => {
-        reject(new Error("timeout waiting for chat message"));
-        this.socket.removeListener(ChatEvent.MESSAGE, responseHandler);
+        reject(new Error("timeout waiting for game_info"));
+        this.socket.removeListener(ChatEvent.GAME_INFO, responseHandler);
       }, timeout * 1000 * 3600);
     });
   }
 
+  sendPlayAgain() {
+    this.socket.emit(ChatEvent.PLAY_AGAIN, '');
+  }
 
+  waitUntilPlayAgain(): Promise<string> {
+    const timeout = 24;
+    return new Promise((resolve, reject) => {
+      let timer: number;
+
+      function responseHandler(s: string) {
+        // resolve promise with the value we got
+        resolve(s);
+        clearTimeout(timer);
+      }
+
+      this.socket.once(ChatEvent.PLAY_AGAIN, responseHandler);
+
+      // set timeout so if a response is not received within a
+      // reasonable amount of time, the promise will reject
+      timer = setTimeout(() => {
+        reject(new Error("timeout waiting for play_again"));
+        this.socket.removeListener(ChatEvent.PLAY_AGAIN, responseHandler);
+      }, timeout * 1000 * 3600);
+    });
+  }
 //
 //
 //   componentDidMount () {

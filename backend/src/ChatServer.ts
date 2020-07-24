@@ -54,7 +54,7 @@ export class ChatServer {
       this.playersState[player.id] = player;
       console.log(`> Client[${socket.id}] player_num ${player.player_num} assigned`);
       console.log(`> playersState: ${JSON.stringify(this.playersState)}`);
-      if (allConnectedClients.length == 2) this.startGame();
+      if (Object.keys(this.playersState).length === 2) this.startGame();
 
       socket.on(ChatEvent.MESSAGE, (m: ChatMessage) => {
         console.log(`Client[${socket.id}](message): ${JSON.stringify(m)}`);
@@ -66,12 +66,30 @@ export class ChatServer {
         })
       });
 
+      socket.on(ChatEvent.PLAY_AGAIN, (s: string) => {
+        console.log(`Client[${socket.id}] emitted play_again`);
+        if (this.playersState[socket.id]) {
+          this.playersState = {};
+          console.log(`> All playerState deleted`);
+          console.log(`> playersState: ${JSON.stringify(this.playersState)}`);
+        }
+        const allConnectedClients: string[] = Object.keys(this.io.sockets.sockets);
+        console.log(`> All connected clients: ${JSON.stringify(allConnectedClients)}`);
+        const opponents: string[] = allConnectedClients.filter(array => array !== socket.id);
+        opponents.forEach((opponent: string) => {
+          this.io.to(opponent).emit(ChatEvent.PLAY_AGAIN, s);
+          console.log(`> Forwarded play_again client[${socket.id}] => client[${opponent}]`);
+        })
+      });
+
       socket.on(ChatEvent.DISCONNECT, () => {
         console.log(`Client[${socket.id}] disconnected`);
         const allConnectedClients: string[] = Object.keys(this.io.sockets.sockets)
         console.log(`> All connected clients: ${JSON.stringify(allConnectedClients)}`);
-        delete this.playersState[socket.id];
-        console.log(`> Client[${socket.id}] playerState deleted`);
+        if (this.playersState[socket.id]) {
+          delete this.playersState[socket.id];
+          console.log(`> Client[${socket.id}] playerState deleted`);
+        }
         console.log(`> playersState: ${JSON.stringify(this.playersState)}`);
       });
     });

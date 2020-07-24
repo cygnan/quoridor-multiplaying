@@ -176,6 +176,8 @@ function showWinningText(winning_player: number) {
   }
 
   boardDiv.appendChild(d);
+
+  waitPlayAgain();
 }
 
 function topPx(idx: number) : number {
@@ -189,6 +191,9 @@ function toggleAgent(event: Event) {
   if (checkbox.checked) {
     g_agent_name = checkbox.value;
   }
+  console.log('Sending play_again to server...');
+  app.sendPlayAgain();
+  console.log('Sent play_again. Reloading.');
   window.location.reload();
 }
 
@@ -415,6 +420,14 @@ function updateBoard(act: Act) {
   }
 }
 
+function waitPlayAgain() {
+  console.log('Waiting for play_again...');
+  app.waitUntilPlayAgain().then((s: string) => {
+    console.log('Received play_again. Reloading.');
+    window.location.reload();
+  })
+}
+
 let g_state: State = null;
 let g_agent_name = "CPU Lv.1";
 let g_humans_turn: boolean = true;
@@ -428,7 +441,11 @@ initializeAgentButtons();
 prepareGameState();
 
 let player_num: 0 | 1;
+console.log('Waiting for others to join...');
 app.waitUntilGameBeginning().then((player: Player) => {
+  console.log('Received game_info.');
+  console.log(`Me: ${JSON.stringify(player)}`);
+  console.log('Started game.');
   player_num = player.player_num as 0 | 1;
   resetGameState();
 })
