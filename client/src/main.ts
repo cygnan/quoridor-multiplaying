@@ -169,10 +169,10 @@ function showWinningText(winning_player: number) {
   d.style.height = "40px";
   if (winning_player == 0) {
     d.style.top = "-50px";
-    d.classList.add("qf_winning_btext");
+    d.classList.add(`qf_winning_${turnStringPlayerNum(winning_player)}text`);
   } else {
     d.style.top = "450px";
-    d.classList.add("qf_winning_wtext");
+    d.classList.add(`qf_winning_${turnStringPlayerNum(winning_player)}text`);
   }
   d.style.left = "0px";
   d.classList.add("qf_winning_text");
