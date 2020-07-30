@@ -10,6 +10,14 @@ function turnString(turn: number) : string {
   return (turn == 0) ? "b" : "w";
 }
 
+function turnStringPlayerNum(turn: number) : string {
+  return player_num == 0 ? turnString(turn) : turnString(1 - turn);
+}
+
+function invPlayerNum(turn: number): number {
+  return player_num == 0 ? turn : 1 - turn;
+}
+
 function isValid(act: Act) : boolean {
   return g_candidate_acts.includes(act);
 }
@@ -112,14 +120,14 @@ function showShadowImpl(act: Act) {
 
   if (y % 2 == 0 && x % 2 == 0) {
     // piece shadow
-    const shadowDiv = document.querySelector(".qf_" + turnString(g_state.turn) + "piece2") as HTMLDivElement;
+    const shadowDiv = document.querySelector(".qf_" + turnStringPlayerNum(g_state.turn) + "piece2") as HTMLDivElement;
     shadowDiv.style.top = (topPx(y) + 2) + "px";
     shadowDiv.style.left = (topPx(x) + 2) + "px";
     shadowDiv.style.visibility = "visible";
   } else {
     // wall shadow
     const dir = y % 2;
-    const shadowDiv = document.querySelector(`.qf_wall[data-wall_shadow="${g_state.turn}${dir}"]`) as HTMLDivElement;
+    const shadowDiv = document.querySelector(`.qf_wall[data-wall_shadow="${invPlayerNum(g_state.turn)}${dir}"]`) as HTMLDivElement;
     shadowDiv.style.top = topPx(y) + "px";
     shadowDiv.style.left = topPx(x) + "px";
     shadowDiv.style.visibility = "visible";
@@ -141,7 +149,7 @@ function showShadowEvent(event: Event) {
 
 function clearPieceShadow(event: Event) {
   for (let p = 0; p <= 1; p++) {
-    const shadowDiv = document.querySelector(".qf_" + turnString(p) + "piece2") as HTMLDivElement;
+    const shadowDiv = document.querySelector(".qf_" + turnStringPlayerNum(p) + "piece2") as HTMLDivElement;
     shadowDiv.style.visibility = "hidden";
   }
 }
@@ -149,7 +157,7 @@ function clearPieceShadow(event: Event) {
 function clearWallShadow(event: Event) {
   for (let p = 0; p <= 1; p++) {
     for (let dir = 0; dir <= 1; dir++) {
-      const shadowDiv = document.querySelector(`.qf_wall[data-wall_shadow="${p}${dir}"]`) as HTMLDivElement;
+      const shadowDiv = document.querySelector(`.qf_wall[data-wall_shadow="${invPlayerNum(p)}${dir}"]`) as HTMLDivElement;
       shadowDiv.style.visibility = "hidden";
     }
   }
@@ -328,9 +336,9 @@ function resetGameState() {
       d.style.left = (topPx(i * 2) - 10) + "px";
       d.dataset["idx"] = i.toString();
       d.classList.add("qf_wall");
-      d.classList.add("qf_" + turnString(p) + "wall");
+      d.classList.add("qf_" + turnStringPlayerNum(p) + "wall");
       d.classList.add("qf_vwall");
-      d.classList.add("qf_remaining_" + turnString(p) + "wall"); // for search
+      d.classList.add("qf_remaining_" + turnStringPlayerNum(p) + "wall"); // for search
       d.classList.add("to_be_disposed");
 
       boardDiv.appendChild(d);
@@ -346,7 +354,7 @@ function resetGameState() {
     d.style.top = (topPx(y) + 2) + "px";
     d.style.left = (topPx(x) + 2) + "px";
     d.classList.add("qf_piece");
-    d.classList.add("qf_" + turnString(p) + "piece");
+    d.classList.add("qf_" + turnStringPlayerNum(p) + "piece");
     d.classList.add("to_be_disposed");
 
     boardDiv.appendChild(d);
@@ -362,7 +370,7 @@ function updateBoard(act: Act) {
 
   if (x % 2 == 0 && y % 2 == 0) {
     // piece movement
-    const pieceDiv = document.querySelector(".qf_" + turnString(g_state.turn) + "piece") as HTMLDivElement;
+    const pieceDiv = document.querySelector(".qf_" + turnStringPlayerNum(g_state.turn) + "piece") as HTMLDivElement;
     pieceDiv.style.top = (topPx(y) + 2) + "px";
     pieceDiv.style.left = (topPx(x) + 2) + "px";
   }
@@ -389,13 +397,13 @@ function updateBoard(act: Act) {
     d.style.opacity = "0";
     d.classList.add("qf_wall");
     d.classList.add("to_be_disposed");
-    d.classList.add("qf_" + turnString(g_state.turn) + "wall");
+    d.classList.add("qf_" + turnStringPlayerNum(g_state.turn) + "wall");
 
     boardDiv.appendChild(d);
 
     // update the number of remaining walls
     const idx = g_state.walls[g_state.turn] - 1;
-    let remaining = document.querySelector(`.qf_remaining_${turnString(g_state.turn)}wall[data-idx="${idx}"]`) as HTMLDivElement;
+    let remaining = document.querySelector(`.qf_remaining_${turnStringPlayerNum(g_state.turn)}wall[data-idx="${idx}"]`) as HTMLDivElement;
     remaining.style.opacity = "0";
 
     setTimeout(() => {
