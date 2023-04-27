@@ -17,7 +17,7 @@ cd backend && ./run
 
 ```
 
-1. Open localhost://3000 to play
+1. Open [localhost:3000/](http://localhost:3000/) to play
 
 ## License
 
