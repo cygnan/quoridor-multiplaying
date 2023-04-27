@@ -27,4 +27,4 @@ This repository includes some files and code derived from other softwares. Such 
   
   Files: ``/client/**``
 
-All other files are my writing, GPLv3 License, see [LICENSE](LICENSE).
+All other files are my writing, GPLv3, see [LICENSE](LICENSE).
