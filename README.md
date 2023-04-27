@@ -2,7 +2,7 @@
 
 Quoridor Online Multiplayer Game using Node.js, Express and Socket.io.
 
-![cap-playing](https://user-images.githubusercontent.com/25865313/234743654-b098720b-f2c2-45f3-9c41-bc892294a072.gif)
+![cap2-playing](https://user-images.githubusercontent.com/25865313/234788640-9302c0c2-9479-4f01-af2b-b2d065b687ff.gif)
 
 ## Getting started
 
