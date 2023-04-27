@@ -183,6 +183,7 @@ function showWinningText(winning_player: number) {
     d.innerText = "You Lose...";
   }
 
+
   boardDiv.appendChild(d);
 
   waitPlayAgain();
