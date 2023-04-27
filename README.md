@@ -8,7 +8,7 @@ Quoridor Online Multiplayer Game using Node.js, Express and Socket.io.
 
 1. Clone this repository
 
-1. install libraries and run backend code:
+1. Install libraries and run backend code:
 
 ```bash
 
@@ -25,7 +25,7 @@ This repository includes some files and code derived from other softwares. Such 
 
 - [ir5/quoridor-AI](https://github.com/ir5/quoridor-AI/), distributed under the [MIT License](https://github.com/ir5/quoridor-AI/blob/master/LICENSE)
   
-  Files: ``/client/src/*.ts``, ``/client/src/agents/*.ts``, ``/client/public/**``
+  Files: ``/client/src/*.ts``, ``/client/src/agents/*.ts`` and ``/client/public/**``
 
 - [rossbulat/ts-live-chat-demo](https://github.com/rossbulat/ts-live-chat-demo/tree/master), distributed under the [GPLv3](https://github.com/rossbulat/ts-live-chat-demo/blob/master/LICENSE)
   
