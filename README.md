@@ -25,6 +25,11 @@ This repository includes some files and code derived from other softwares. Such 
 
 - [ir5/quoridor-AI](https://github.com/ir5/quoridor-AI/), distributed under the [MIT License](https://github.com/ir5/quoridor-AI/blob/master/LICENSE)
   
-  Files: ``/client/**``
+  Files: ``/client/src/*.ts``, ``/client/src/agents/*.ts``, ``/client/public/**``
+
+- [rossbulat/ts-live-chat-demo](https://github.com/rossbulat/ts-live-chat-demo/tree/master), distributed under the [GPLv3](https://github.com/rossbulat/ts-live-chat-demo/blob/master/LICENSE)
+  
+  Files: ``/backend/src/*.ts``
 
 All other files are my writing, GPLv3, see [LICENSE](LICENSE).
+
