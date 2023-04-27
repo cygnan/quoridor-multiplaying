@@ -8,16 +8,16 @@ Quoridor Online Multiplayer Game using Node.js, Express and Socket.io.
 
 1. Clone this repository
 
-1. install libraries and run backend code
+1. install libraries and run backend code:
 
 ```bash
 
 npm install
-cd backend && ./run
+cd backend && npm run prod
 
 ```
 
-1. Open [localhost:3000/](http://localhost:3000/) to play
+1. Open [localhost:3000](http://localhost:3000/) to play
 
 ## License
 
