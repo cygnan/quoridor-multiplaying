@@ -6,9 +6,7 @@ Quoridor Online Multiplayer Game using Node.js, Express and Socket.io.
 
 ## Getting started
 
-1. Install Node.js `v10.19.0` if it's not installed.
-
-1. Clone this repository.
+1. Install Node.js `v10.19.0` and clone this repository.
 
 1. Install libraries and run backend code:
 
