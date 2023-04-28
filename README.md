@@ -1,6 +1,6 @@
 # quoridor-multiplaying
 
-Quoridor Online Multiplayer Game using Node.js, Express and Socket.io.
+Quoridor Online Multiplayer Game using Node.js, Express and Socket.IO.
 
 ![cap2-playing](https://user-images.githubusercontent.com/25865313/234790812-c472d87e-189a-4f6a-8685-d34ee5150509.gif)
 
